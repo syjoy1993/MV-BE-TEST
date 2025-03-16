@@ -32,12 +32,12 @@ public class SubscriptionService {
     public List<SubscriptionResp> getSubscriptions(Long uId) {
 
         return subscriptionRepository.findAllByUser_UserId(uId)
-                                    .stream()
-                                    .map(subscription -> {
-                                        SubscriptionResp resp = SubscriptionResp.toResp(SubscriptionDto.toDto(subscription));
-                                        return resp;
-                                    })
-                                    .collect(Collectors.toList());
+                .stream()
+                .map(subscription -> {
+                    SubscriptionResp resp = SubscriptionResp.toResp(SubscriptionDto.toDto(subscription));
+                    return resp;
+                })
+                .collect(Collectors.toList());
 
     }
 
@@ -71,16 +71,16 @@ public class SubscriptionService {
 
         PaymentMethod paymentMethod = "KAKAOPAY".equals(paymentCheckDto.getMethod().getProvider())? PaymentMethod.KAKAO_PAY : PaymentMethod.CREDIT_CARD;
         return SubscriptionDto.toDto(subscriptionRepository.save(Subscription.of(
-                                                                    SubscriptionStatus.ACTIVE,
-                                                                    SubscriptionPlan.PREMIUM,
-                                                                    ld,
-                                                                    ld.plusDays(30),
-                                                                    ld.plusDays(31),
-                                                                    paymentMethod,
-                                                                    null,
-                                                                    null,
-                                                                    user)
-                                                                ));
+                SubscriptionStatus.ACTIVE,
+                SubscriptionPlan.PREMIUM,
+                ld,
+                ld.plusDays(30),
+                ld.plusDays(31),
+                paymentMethod,
+                null,
+                null,
+                user)
+        ));
     }
 
     public Long checkSubscription(Long uId) {

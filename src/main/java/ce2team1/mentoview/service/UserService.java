@@ -16,13 +16,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    @Transactional(readOnly = false)
     public UserDto createUser(UserDto userDto) {
 
         Optional<User> findByEmail = userRepository.findByEmail(userDto.getEmail());
@@ -59,7 +60,7 @@ public class UserService {
 
     }
 
-
+    @Transactional(readOnly = false)
     public void changePassword(Long userId, String beforePassword, String afterPassword) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ServiceException("User not found"));
@@ -75,23 +76,6 @@ public class UserService {
 
     }
 
-/*    // OAuth
-    public User updateUser(User user, OAuth2ResponseSocial responseSocial) {
-        user.updateSocialInfo(responseSocial.getProviderId());
-        return userRepository.save(user);
-    }
-    // OAuth
-    public User createUser(OAuth2ResponseSocial responseSocial) {
-        return User.builder()
-                .email(responseSocial.getEmail())
-                .name(responseSocial.getName())
-                .role(Role.USER)
-                .socialProvider(responseSocial.getProvider())
-                .providerId(responseSocial.getProviderId())
-                .status(UserStatus.ACTIVE)
-                .build();
-    }*/
-
     @Transactional
     public void setBillingKey(Long uId, String billingKey) {
         User user = userRepository.findById(uId).orElseThrow();
@@ -104,7 +88,7 @@ public class UserService {
         return user.getBillingKey();
     }
 
-    @Transactional(readOnly = true)
+
     public UserDto findByEmail(String email) {
 
         User user = userRepository.findByEmail(email).orElseThrow(

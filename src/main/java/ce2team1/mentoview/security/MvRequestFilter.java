@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /*
-* 클라이언트 검증
-* */
+ * 클라이언트 검증
+ * */
 @Component
 @RequiredArgsConstructor
 public class MvRequestFilter extends OncePerRequestFilter {
@@ -76,7 +76,7 @@ public class MvRequestFilter extends OncePerRequestFilter {
 
         String emailFromToken = jwtTokenProvider.getEmailFromToken(authToken);
         //Role roleFromToken = jwtTokenProvider.getRoleFromToken(authToken);
-      
+
         UserDto userDto = userService.findByEmail(emailFromToken);
 
         MvPrincipalDetails mvPrincipalDetails = MvPrincipalDetails.of(userDto);

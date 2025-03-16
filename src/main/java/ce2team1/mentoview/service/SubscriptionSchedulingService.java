@@ -32,3 +32,4 @@ public class SubscriptionSchedulingService {
         System.out.println("만료된 구독 상태 업데이트 완료!");
     }
 }
+
